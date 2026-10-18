@@ -34,22 +34,7 @@ echo "Wrote ${OUT}."
 # Quick level check so you know the clip is usable.
 PY="$(dirname "$0")/.venv/bin/python"
 if [ -x "$PY" ]; then
-  "$PY" - "$OUT" <<'PYEOF'
-import sys
-import numpy as np
-import soundfile as sf
-
-a, sr = sf.read(sys.argv[1], dtype="float64")
-peak = float(np.abs(a).max())
-rms = float((a**2).mean() ** 0.5)
-print(f"  {len(a)/sr:.2f}s | peak {peak:.3f} | rms {rms:.4f}")
-if rms < 0.01:
-    print("  WARNING: very quiet -- is the mic muted? speak closer and re-record.")
-elif peak > 0.99:
-    print("  WARNING: clipping -- lower input gain and re-record.")
-else:
-    print("  Level looks good.")
-PYEOF
+  "$PY" "$(dirname "$0")/check_level.py" "$OUT"
 fi
 
 echo "Preview with: afplay ${OUT}"

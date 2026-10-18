@@ -13,7 +13,9 @@ Target phrase for this experiment: **"Artificial Intelligence & Machine Learning
 
 # 2. Record ~10s of your voice -> ref.wav
 ./record_ref.sh ref.wav
-#    (or record in QuickTime, then: afconvert -f WAVE -d LEI16@24000 in.m4a ref.wav)
+
+#    Or convert an existing recording (QuickTime, Voice Memos, iPhone):
+./prep_ref.sh ~/Desktop/my-voice.m4a ref.wav
 
 # 3. Synthesize the phrase in your cloned voice
 .venv/bin/python gen.py \
@@ -52,14 +54,46 @@ Passed through `gen.py`:
 - Pin the package version in `requirements.txt` (`chatterbox-tts==0.1.7`).
 - Fix `--seed` so a given (reference, text, knob) tuple yields the same audio.
 - Every output carries Resemble's PerTh watermark — expected, not a bug.
+- `gen.py` normalizes non-WAV references to 24 kHz mono WAV via ffmpeg, so
+  `.m4a`/`.mp3` behave identically to `.wav` and skip librosa's deprecated
+  `audioread` fallback.
+
+## Reading the debug output
+
+`gen.py` silences the known-benign chatter from third-party libraries, so a
+clean run only shows real information:
+
+| Suppressed message | Why it appears | Handled by |
+| :--- | :--- | :--- |
+| `pkg_resources is deprecated` | `perth` imports `pkg_resources`; that is why `setuptools<81` is pinned | `warnings` filter |
+| ``LoRACompatibleLinear` is deprecated` | `diffusers==0.29.0` constructs the class | `warnings` filter |
+| ``torch.backends.cuda.sdp_kernel()` is deprecated` | Chatterbox internals; a no-op on MPS | `warnings` filter |
+| ``sdpa` attention does not support `output_attentions=True`` | `transformers` `logger.warning_once` | logging filter |
+
+Note: **installing `peft` does not silence** the `LoRACompatibleLinear` warning.
+That warning is emitted inside `LoRACompatibleLinear.__init__` on every
+construction — not an "is peft installed?" check — so only a diffusers upgrade
+would remove it. `peft` is therefore not a dependency here.
+
+Remaining output worth acting on:
+
+| Message | Meaning / fix |
+| :--- | :--- |
+| `You are sending unauthenticated requests to the HF Hub` | Set `HF_TOKEN` (e.g. `export HF_TOKEN=hf_...`) for faster, rate-limit-free model downloads. Only matters on first run; the weights are cached afterwards |
+| `loaded PerthNet (Implicit) at step 250,000` | Info — watermarker ready |
+| `Sampling: N%` | Progress bar (generation stops early at end-of-utterance) |
+| `PySoundFile failed. Trying audioread instead` | Should no longer occur: `gen.py` converts non-WAV references to 24 kHz mono WAV first. If you see it, `ffmpeg` was not on `PATH`, or you called `prepare_conditionals` directly |
+| `wrote ... (0.5s @ 24000 Hz)` for a long sentence | Early EOS / truncation. Retry with a different `--seed`, raise `--cfg-weight`, or record a cleaner reference |
 
 ## Layout
 
 ```
 install.sh        # create .venv + install deps
 record_ref.sh     # record a reference clip
+prep_ref.sh       # convert an existing recording to ref.wav
+check_level.py    # (used by the two above) duration/level verdict
 gen.py            # clone + synthesize
-Makefile          # setup / record / say / preview / clean
+Makefile          # setup / record / prep / say / preview / clean
 requirements.txt  # pinned chatterbox-tts
 out/              # generated audio (gitignored)
 ```
