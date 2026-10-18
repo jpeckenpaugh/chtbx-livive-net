@@ -1,0 +1,16 @@
+# One phrase per line; blank lines and # comments are ignored.
+# The output filename is the slugified phrase, e.g.
+#   "It's a live vive" -> its-a-live-vive.mp3
+# Render with: make web   (or: .venv/bin/python render_phrases.py --ref refs/jarad.m4a)
+#
+# Category titles mirror the filters on livive.net. Edit freely; re-run to
+# regenerate. Existing files are skipped unless you pass --force.
+
+It's a live vive
+Artificial Intelligence and Machine Learning
+Development Tools and Utilities
+Education and Teaching
+Games
+Language Tools
+Web Apps and Prototypes
+Other Concepts
