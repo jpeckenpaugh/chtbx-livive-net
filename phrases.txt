@@ -17,5 +17,5 @@ Explore a Game
 Natural Language Processing and Related Tools
 Web Applications and Proof of Concepts
 Other Concepts
-Share an idea and what it come to life
+Share an idea and watch it come to life
 Was that a bug or a feature
