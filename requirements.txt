@@ -1,1 +1,5 @@
 chatterbox-tts==0.1.7
+
+# resemble-perth's watermarker imports pkg_resources, which setuptools removed
+# in v81. torch needs setuptools>=77.0.3, so pin below 81.
+setuptools>=77.0.3,<81
