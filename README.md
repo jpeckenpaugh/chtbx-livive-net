@@ -4,7 +4,7 @@ Zero-shot voice cloning with [Chatterbox](https://github.com/resemble-ai/chatter
 clone a voice from a short reference clip and synthesize arbitrary text.
 
 Target phrase for this experiment: **"Artificial Intelligence & Machine Learning"**.
-Rendered for the portfolio at <https://www.livive.net/>.
+Rendered for the portfolio audio at <https://chtbx.livive.net/audio/v1/>.
 
 ## Repeatable workflow
 
@@ -30,19 +30,29 @@ afplay out/voice.wav
 
 Or via `make`: `make setup && make record && make say && make preview`.
 
-## Web audio for the portfolio (livive.net)
+## Web audio for chtbx.livive.net
 
 Render a whole set of phrases (category titles, taglines) as web-optimized audio
-and drop them into the portfolio repo:
+and ship them from this repo (CNAME `chtbx.livive.net`, remote
+`jpeckenpaugh/chtbx-livive-net`):
 
 ```sh
-make web                     # renders phrases.txt -> ../livive-net/audio
+make web                     # renders phrases.txt -> audio/v1
 # or explicitly:
-.venv/bin/python render_phrases.py --ref refs/jarad.m4a --out-dir ../livive-net/audio
+.venv/bin/python render_phrases.py --ref refs/jarad.m4a --out-dir audio/v1
 ```
 
 The model loads once for the whole batch. Existing clips are skipped unless you
 pass `--force`. Edited `phrases.txt`? Just re-run.
+
+### Why `audio/v1/` and not `build/`, `dist/`, or `cdn/`
+
+GitHub Pages serves the repo root as-is; there is no build step, so `build/` and
+`dist/` (which conventionally mean generated, gitignored output) would be
+misleading, and `cdn/` would imply a separate origin. `audio/` matches the
+repo's root-level topic folders. The `v1/` segment versions the set so a
+re-render can be published atomically under a new path while the old one stays
+cached — bump it when the phrase set changes materially.
 
 ### Format recommendation: MP3, mono, 24 kHz, 64 kbps
 
@@ -52,7 +62,7 @@ pass `--force`. Edited `phrases.txt`? Just re-run.
 | AAC / `.m4a` | Good for Apple, but Firefox-on-Linux may lack an AAC decoder, and Pages may not map the MIME type. |
 | Opus in `.webm`/`.opus` | Best quality-per-byte (~half the size), but Safari/Opus container support is uneven and Pages likely serves `.opus` as `application/octet-stream`, which can break `<audio>`. |
 
-These are 1–3 second clips, so size is a non-issue (~116 KB for all 8). Prefer
+These are 1–3 second clips, so size is a non-issue (~224 KB for all 13). Prefer
 the format with zero playback risk. Keep MP3 mono at the source's 24 kHz — no
 resampling, no stereo, and CBR is fine at these sizes.
 
@@ -67,19 +77,18 @@ Clips are normalized to a common **speech level** (active RMS, default
 `loudnorm`: these short clips have 18–24 dB crest factors, so `loudnorm` caps its
 gain at the true-peak ceiling and each clip lands wherever its own dynamics put
 it (measured −26…−20 LUFS when targeting −16 — a 6 dB spread). Speech-level
-normalization brought the set to a **0.99 dB spread** with a max peak of −1.8 dBFS
-and no limiting engaged.
+normalization brought the set to roughly a **1 dB spread** with no limiting
+engaged.
 
 ### Naming and layout
 
 Files are named by slugified phrase, e.g. `It's a live vive` →
-`its-a-live-vive.mp3`, in `livive-net/audio/` (a root-level media folder,
-matching the existing `previews/` and `thumbnails/`).
+`its-a-live-vive.mp3`, under `audio/v1/`.
 
 To use a clip:
 
 ```html
-<audio src="/audio/artificial-intelligence-and-machine-learning.mp3" preload="none"></audio>
+<audio src="/audio/v1/its-a-live-vive.mp3" preload="none"></audio>
 ```
 
 ## Reference clip guidelines
@@ -150,5 +159,6 @@ render_phrases.py # batch render phrases.txt -> web audio
 phrases.txt       # phrase manifest (category titles, taglines)
 Makefile          # setup / record / prep / say / web / preview / clean
 requirements.txt  # pinned chatterbox-tts
+audio/v1/         # shipped web audio (committed)
 out/              # generated audio + intermediate WAVs (gitignored)
 ```

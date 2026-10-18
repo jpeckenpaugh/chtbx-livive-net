@@ -1,6 +1,6 @@
 REF ?= refs/jarad.m4a
 OUT ?= out/voice.wav
-WEB_AUDIO_DIR ?= ../livive-net/audio
+WEB_AUDIO_DIR ?= audio/v1
 PYTHON ?= .venv/bin/python
 
 # Note: "Artificial" is the correct spelling (the original said "Artifical").

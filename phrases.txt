@@ -7,10 +7,15 @@
 # regenerate. Existing files are skipped unless you pass --force.
 
 It's a live vive
-Artificial Intelligence and Machine Learning
-Development Tools and Utilities
-Education and Teaching
-Games
-Language Tools
-Web Apps and Prototypes
+Featured Projects
+Take another look
+They really like me
+Experiments in Artificial Intelligence and Machine Learning
+Development Tooling and Custom Utilities
+Educational Resources and Teaching Tools
+Explore a Game
+Natural Language Processing and Related Tools
+Web Applications and Proof of Concepts
 Other Concepts
+Share an idea and what it come to life
+Was that a bug or a feature
