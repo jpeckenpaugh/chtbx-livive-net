@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chatterbox Audio CDN · v1</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; --bg:#0b0b0e; --panel:#141419; --line:#2a2a33; --text:#f4f4f5; --muted:#a1a1aa; --accent:#22d3ee; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 56px 24px 80px; }
+  h1 { margin: 0 0 8px; font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.03em; }
+  .lede { color: var(--muted); margin: 0 0 8px; max-width: 70ch; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 32px; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .clip { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+  .clip h2 { font-size: 15px; margin: 0 0 2px; }
+  .clip code { color: var(--muted); font-size: 11px; word-break: break-all; }
+  audio { width: 100%; margin-top: 12px; height: 36px; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 13px; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Chatterbox Audio CDN</h1>
+  <p class="lede">Version 1 of the cloned-voice narration set used by the Livive portfolio. Each clip is a normalized, mono 24&nbsp;kHz MP3 served directly from GitHub Pages.</p>
+  <p class="meta">13 clips · CORS enabled · <a href="../../">chtbx.livive.net</a></p>
+  <div class="grid">
+    <article class="clip"><h2>It's a Livive — Welcome</h2><code>its-a-live-vive.mp3</code><audio controls preload="none" src="its-a-live-vive.mp3"></audio></article>
+    <article class="clip"><h2>Featured Projects</h2><code>featured-projects.mp3</code><audio controls preload="none" src="featured-projects.mp3"></audio></article>
+    <article class="clip"><h2>Take Another Look</h2><code>take-another-look.mp3</code><audio controls preload="none" src="take-another-look.mp3"></audio></article>
+    <article class="clip"><h2>They Really Like Me</h2><code>they-really-like-me.mp3</code><audio controls preload="none" src="they-really-like-me.mp3"></audio></article>
+    <article class="clip"><h2>AI/ML Experiments</h2><code>experiments-in-artificial-intelligence-and-machine-learning.mp3</code><audio controls preload="none" src="experiments-in-artificial-intelligence-and-machine-learning.mp3"></audio></article>
+    <article class="clip"><h2>Development Tooling</h2><code>development-tooling-and-custom-utilities.mp3</code><audio controls preload="none" src="development-tooling-and-custom-utilities.mp3"></audio></article>
+    <article class="clip"><h2>Education &amp; Teaching</h2><code>educational-resources-and-teaching-tools.mp3</code><audio controls preload="none" src="educational-resources-and-teaching-tools.mp3"></audio></article>
+    <article class="clip"><h2>Explore a Game</h2><code>explore-a-game.mp3</code><audio controls preload="none" src="explore-a-game.mp3"></audio></article>
+    <article class="clip"><h2>Language Tools</h2><code>natural-language-processing-and-related-tools.mp3</code><audio controls preload="none" src="natural-language-processing-and-related-tools.mp3"></audio></article>
+    <article class="clip"><h2>Web Apps &amp; Prototypes</h2><code>web-applications-and-proof-of-concepts.mp3</code><audio controls preload="none" src="web-applications-and-proof-of-concepts.mp3"></audio></article>
+    <article class="clip"><h2>Other Concepts</h2><code>other-concepts.mp3</code><audio controls preload="none" src="other-concepts.mp3"></audio></article>
+    <article class="clip"><h2>Suggest a Project</h2><code>share-an-idea-and-watch-it-come-to-life.mp3</code><audio controls preload="none" src="share-an-idea-and-watch-it-come-to-life.mp3"></audio></article>
+    <article class="clip"><h2>Report an Issue</h2><code>was-that-a-bug-or-a-feature.mp3</code><audio controls preload="none" src="was-that-a-bug-or-a-feature.mp3"></audio></article>
+  </div>
+  <footer>Generated audio only. Source pipeline: <code>chtbx-livive-net</code>.</footer>
+</main>
+</body>
+</html>
